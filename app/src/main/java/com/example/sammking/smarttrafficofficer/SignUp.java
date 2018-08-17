@@ -16,8 +16,8 @@ import java.util.HashMap;
 public class SignUp extends AppCompatActivity {
 
     Button register;
-    EditText First_Name, Last_Name, Email,Phone_number,Id_number, Password ;
-    String F_Name_Holder, L_Name_Holder, EmailHolder,Phone_number_Holder,Id_number_Holder, PasswordHolder;
+    EditText First_Name, Last_Name, Email,Username, Password ;
+    String F_Name_Holder, L_Name_Holder,User_Name, EmailHolder,PasswordHolder;
     String finalResult ;
     String HttpURL = "https://smarttrafficofficer.000webhostapp.com/Registration.php";
     Boolean CheckEditText ;
@@ -34,9 +34,8 @@ public class SignUp extends AppCompatActivity {
         //Assign Id'S
         First_Name = (EditText)findViewById(R.id.fname);
         Last_Name = (EditText)findViewById(R.id.lname);
+        Username = (EditText)findViewById(R.id.username);
         Email = (EditText)findViewById(R.id.email);
-        Id_number= (EditText)findViewById(R.id.id_number);
-        Phone_number = (EditText)findViewById(R.id.phone_number);
         Password = (EditText)findViewById(R.id.password);
 
         register = (Button)findViewById(R.id.btn_register);
@@ -54,7 +53,7 @@ public class SignUp extends AppCompatActivity {
 
                     // If EditText is not empty and CheckEditText = True then this block will execute.
 
-                    UserRegisterFunction(F_Name_Holder,L_Name_Holder, EmailHolder,Id_number_Holder, Phone_number_Holder,PasswordHolder);
+                    UserRegisterFunction(F_Name_Holder,L_Name_Holder,User_Name, EmailHolder,PasswordHolder);
 
                 }
                 else {
@@ -75,13 +74,12 @@ public class SignUp extends AppCompatActivity {
 
         F_Name_Holder = First_Name.getText().toString();
         L_Name_Holder = Last_Name.getText().toString();
+        User_Name = Username.getText().toString();
         EmailHolder = Email.getText().toString();
-        Id_number_Holder = Id_number.getText().toString();
-        Phone_number_Holder = Phone_number.getText().toString();
         PasswordHolder = Password.getText().toString();
 
 
-        if(TextUtils.isEmpty(F_Name_Holder) || TextUtils.isEmpty(L_Name_Holder) || TextUtils.isEmpty(EmailHolder) ||TextUtils.isEmpty(Phone_number_Holder) || TextUtils.isEmpty(Id_number_Holder) || TextUtils.isEmpty(PasswordHolder))
+        if(TextUtils.isEmpty(F_Name_Holder) || TextUtils.isEmpty(L_Name_Holder) ||TextUtils.isEmpty(User_Name) || TextUtils.isEmpty(EmailHolder)  || TextUtils.isEmpty(PasswordHolder))
         {
 
             CheckEditText = false;
@@ -94,7 +92,7 @@ public class SignUp extends AppCompatActivity {
 
     }
 
-    public void UserRegisterFunction(final String fname, final String lname, final String email,final String phone_number,final String id_number, final String password){
+    public void UserRegisterFunction(final String fname, final String lname, final String username,final String email, final String password){
 
         class UserRegisterFunctionClass extends AsyncTask<String,Void,String> {
 
@@ -123,13 +121,11 @@ public class SignUp extends AppCompatActivity {
 
                 hashMap.put("lname",params[1]);
 
-                hashMap.put("email",params[2]);
+                hashMap.put("username",params[2]);
 
-                hashMap.put("id_number",params[3]);
+                hashMap.put("email",params[3]);
 
-                hashMap.put("phone_number",params[4]);
-
-                hashMap.put("password",params[5]);
+                hashMap.put("password",params[4]);
 
                 finalResult = httpParse.postRequest(hashMap, HttpURL);
 
@@ -139,7 +135,7 @@ public class SignUp extends AppCompatActivity {
 
         UserRegisterFunctionClass userRegisterFunctionClass = new UserRegisterFunctionClass();
 
-        userRegisterFunctionClass.execute(fname,lname,email,id_number,phone_number, password);
+        userRegisterFunctionClass.execute(fname, lname, username, email, password);
     }
 
 }
